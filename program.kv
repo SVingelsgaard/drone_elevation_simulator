@@ -1,0 +1,69 @@
+<Simulation>
+    FloatLayout:
+        Environment:
+            id: SP
+            canvas.before:
+                Rectangle:
+                    size: root.size
+                    source: "environment.png"
+                Color:
+                    rgba: 1 ,0 ,0 ,.5
+                Rectangle:
+                    id: rec
+                    size: root.width, 5
+                    pos: 0, app.setPoint + 70
+
+        Widget:
+            id: info
+            canvas.before:
+                Color:
+                    rgba: .5 ,.5 ,.5 ,.7
+                Rectangle:
+                    size: root.size
+            Label:
+                size: root.size
+                text: "Press the aircraft to start"
+
+        Aircraft:
+            id: AC
+            source: "AC.png"
+            size_hint: None, None
+            size: 190, 190
+            pos: 340, 0
+            on_press:
+                app.runApp()
+                info.opacity = 0
+
+        FloatLayout:
+            pos_hint: {"x": (root.width - 150), "y": 0}
+            size_hint: None, None
+            size: 175, root.height
+
+            Widget:
+                size: self.size
+                pos: self.pos
+                canvas.before:
+                    Color:
+                        rgba: .5 ,.5 ,.5 ,.7
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            GridLayout:
+                cols:1
+                Button:
+                    text: "Show process stats"
+                    on_release:
+                        app.showGraph()
+                Button:
+                    text: "Show PID stats"
+                    on_release:
+                        app.showGraphPID()
+                Button:
+                    text: "Manual"
+                    on_press:
+                        app.thrustOn()
+                        app.setPoint += 100
+                        print(root.ids)
+
+                    on_release:
+                        app.thrustOff()
